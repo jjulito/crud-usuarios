@@ -60,6 +60,13 @@ app.delete("/api/users/:id", (req, res) => {
     res.json({ message: "Usuario eliminado" });
 });
 
+// Eliminar todos los usuarios
+app.delete("/api/users", (req, res) => {
+    usuarios = [];
+    res.json({ message: "Todos los usuarios han sido eliminados" });
+});
+
+
 // Puerto que Render asigna
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
