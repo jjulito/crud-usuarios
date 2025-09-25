@@ -36,52 +36,60 @@
   <section class="crud-test">
   <h2>Probar CRUD de Usuarios</h2>
 
-  <!-- Crear -->
-  <div>
-    <input type="text" id="name" placeholder="Nombre">
-    <input type="email" id="email" placeholder="Email">
-    <button onclick="createUser()">Crear Usuario</button>
-  </div>
-
-  <!-- Leer -->
-  <div>
-    <input type="number" id="readId" placeholder="ID a leer">
-    <button onclick="getUserById()">Leer Usuario</button>
-  </div>
-
-  <!-- Actualizar -->
-  <div>
-    <input type="number" id="updateId" placeholder="ID a actualizar">
-    <input type="text" id="updateName" placeholder="Nuevo Nombre">
-    <input type="email" id="updateEmail" placeholder="Nuevo Email">
-    <button onclick="updateUser()">Actualizar Usuario</button>
-  </div>
-
-  <!-- Eliminar -->
-  <div>
-    <input type="number" id="deleteId" placeholder="ID a eliminar">
-    <button onclick="deleteUserById()">Eliminar Usuario</button>
-  </div>
-
-  <!-- Lista -->
-  <div>
-    <h3>Lista de Usuarios</h3>
-    <ul id="user-list"></ul>
+  <!-- Botonera -->
+  <div class="crud-buttons">
+    <button onclick="toggleForm('createForm')">Crear Usuario</button>
+    <button onclick="toggleForm('readForm')">Leer Usuario</button>
+    <button onclick="toggleForm('updateForm')">Actualizar Usuario</button>
+    <button onclick="toggleForm('deleteForm')">Eliminar Usuario</button>
     <button onclick="loadUsers()">Mostrar Lista</button>
     <button onclick="deleteAllUsers()">Eliminar Todos</button>
   </div>
+
+  <!-- Formularios ocultos -->
+  <div id="createForm" class="crud-form hidden">
+    <input type="text" id="name" placeholder="Nombre">
+    <input type="email" id="email" placeholder="Email">
+    <button onclick="createUser()">Confirmar</button>
+  </div>
+
+  <div id="readForm" class="crud-form hidden">
+    <input type="number" id="readId" placeholder="ID a leer">
+    <button onclick="getUserById()">Confirmar</button>
+  </div>
+
+  <div id="updateForm" class="crud-form hidden">
+    <input type="number" id="updateId" placeholder="ID a actualizar">
+    <input type="text" id="updateName" placeholder="Nuevo Nombre">
+    <input type="email" id="updateEmail" placeholder="Nuevo Email">
+    <button onclick="updateUser()">Confirmar</button>
+  </div>
+
+  <div id="deleteForm" class="crud-form hidden">
+    <input type="number" id="deleteId" placeholder="ID a eliminar">
+    <button onclick="deleteUserById()">Confirmar</button>
+  </div>
+
+  <!-- Lista -->
+  <div class="crud-results">
+    <h3>Lista de Usuarios</h3>
+    <ul id="user-list"></ul>
+  </div>
 </section>
-    
-  <section class="project-links">
-        <h2>Link al código ⬇️</h2>
-        <a href="https://github.com/jjulito/crud-usuarios" target="_blank" class="btn">Ver en GitHub</a>
-    </section>
 
     <footer>
         <p>💻 Creado por Julito</p>
     </footer>
     
     <script>
+
+function toggleForm(formId) {
+  document.querySelectorAll(".crud-form").forEach(form => {
+    form.classList.add("hidden");
+  });
+  document.getElementById(formId).classList.remove("hidden");
+}
+        
   const API_URL = "https://crud-usuarios-1zkp.onrender.com/api/users";
 
   // Mostrar todos los usuarios
