@@ -44,6 +44,7 @@
       <h3>Lista de Usuarios</h3>
       <ul id="user-list"></ul>
       <button onclick="loadUsers()">Actualizar Lista</button>
+      <button onclick="deleteAllUsers()">Eliminar Todos</button>
     </div>
   </section>
     
@@ -96,6 +97,18 @@
       }
     }
 
+    async function deleteAllUsers() {
+    if (!confirm("¿Estás seguro de que quieres eliminar todos los usuarios?")) return;
+    try {
+      await fetch(API_URL, { method: "DELETE" });
+      loadUsers();
+    } catch (err) {
+      console.error(err);
+      alert("Error eliminando usuarios.");
+    }
+  }
+
+        
     loadUsers();
   </script>
     
