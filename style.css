@@ -93,6 +93,7 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Estilos CRUD */
 .crud-test {
   padding: 2rem;
   background: white;
@@ -104,6 +105,33 @@ footer {
 
 .crud-test h2 {
   color: #2575fc;
+}
+
+/* Botonera alineada */
+.crud-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.crud-buttons button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: #2575fc;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.crud-buttons button:hover {
+  background: #0053ba;
+}
+
+/* Formularios ocultos */
+.crud-form {
+  margin-bottom: 15px;
 }
 
 .crud-form input {
@@ -126,7 +154,11 @@ footer {
   background: #0053ba;
 }
 
+/* Estado oculto */
+.hidden {
+  display: none;
+}
+
 .crud-results ul {
   padding-left: 1rem;
 }
-
