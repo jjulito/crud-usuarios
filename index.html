@@ -34,19 +34,43 @@
     
     <!-- Sección de prueba del CRUD -->
   <section class="crud-test">
-    <h2>Probar CRUD de Usuarios</h2>
-    <div class="crud-form">
-      <input type="text" id="name" placeholder="Nombre">
-      <input type="email" id="email" placeholder="Email">
-      <button onclick="createUser()">Crear Usuario</button>
-    </div>
-    <div class="crud-results">
-      <h3>Lista de Usuarios</h3>
-      <ul id="user-list"></ul>
-      <button onclick="loadUsers()">Actualizar Lista</button>
-      <button onclick="deleteAllUsers()">Eliminar Todos</button>
-    </div>
-  </section>
+  <h2>Probar CRUD de Usuarios</h2>
+
+  <!-- Crear -->
+  <div>
+    <input type="text" id="name" placeholder="Nombre">
+    <input type="email" id="email" placeholder="Email">
+    <button onclick="createUser()">Crear Usuario</button>
+  </div>
+
+  <!-- Leer -->
+  <div>
+    <input type="number" id="readId" placeholder="ID a leer">
+    <button onclick="getUserById()">Leer Usuario</button>
+  </div>
+
+  <!-- Actualizar -->
+  <div>
+    <input type="number" id="updateId" placeholder="ID a actualizar">
+    <input type="text" id="updateName" placeholder="Nuevo Nombre">
+    <input type="email" id="updateEmail" placeholder="Nuevo Email">
+    <button onclick="updateUser()">Actualizar Usuario</button>
+  </div>
+
+  <!-- Eliminar -->
+  <div>
+    <input type="number" id="deleteId" placeholder="ID a eliminar">
+    <button onclick="deleteUserById()">Eliminar Usuario</button>
+  </div>
+
+  <!-- Lista -->
+  <div>
+    <h3>Lista de Usuarios</h3>
+    <ul id="user-list"></ul>
+    <button onclick="loadUsers()">Mostrar Lista</button>
+    <button onclick="deleteAllUsers()">Eliminar Todos</button>
+  </div>
+</section>
     
   <section class="project-links">
         <h2>Link al código ⬇️</h2>
@@ -58,56 +82,111 @@
     </footer>
     
     <script>
-    const API_URL = "https://crud-usuarios-1zkp.onrender.com/api/users";
+  const API_URL = "https://crud-usuarios-1zkp.onrender.com/api/users";
 
-    async function loadUsers() {
-      try {
-        const res = await fetch(API_URL);
-        const users = await res.json();
-        const list = document.getElementById("user-list");
-        list.innerHTML = "";
-        users.forEach(u => {
-          const li = document.createElement("li");
-          li.textContent = `ID: ${u.id} - ${u.name} (${u.email})`;
-          list.appendChild(li);
-        });
-      } catch (err) {
-        console.error(err);
-        alert("Error cargando usuarios");
-      }
+  // Mostrar todos los usuarios
+  async function loadUsers() {
+    try {
+      const res = await fetch(API_URL);
+      const users = await res.json();
+      const list = document.getElementById("user-list");
+      list.innerHTML = "";
+      users.forEach(u => {
+        const li = document.createElement("li");
+        li.textContent = `ID: ${u.id} - ${u.name} (${u.email})`;
+        list.appendChild(li);
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Error cargando usuarios");
     }
+  }
 
-    async function createUser() {
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      if (!name || !email) {
-        alert("Completa todos los campos");
-        return;
-      }
-      try {
-        await fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email })
-        });
-        loadUsers();
-      } catch (err) {
-        console.error(err);
-        alert("Error creando usuario.");
-      }
+  // Crear usuario
+  async function createUser() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    if (!name || !email) return alert("Completa todos los campos");
+
+    try {
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+      });
+      alert("Usuario creado");
+    } catch (err) {
+      console.error(err);
+      alert("Error creando usuario.");
     }
+  }
 
-    async function deleteAllUsers() {
-    if (!confirm("¿Estás seguro de que quieres eliminar todos los usuarios?")) return;
+  // Leer usuario por ID
+  async function getUserById() {
+    const id = document.getElementById("readId").value;
+    if (!id) return alert("Ingresa un ID");
+
+    try {
+      const res = await fetch(`${API_URL}/${id}`);
+      if (!res.ok) return alert("Usuario no encontrado");
+      const user = await res.json();
+      alert(`Usuario encontrado:\nID: ${user.id}\nNombre: ${user.name}\nEmail: ${user.email}`);
+    } catch (err) {
+      console.error(err);
+      alert("Error leyendo usuario.");
+    }
+  }
+
+  // Actualizar usuario por ID
+  async function updateUser() {
+    const id = document.getElementById("updateId").value;
+    const name = document.getElementById("updateName").value;
+    const email = document.getElementById("updateEmail").value;
+    if (!id) return alert("Ingresa un ID para actualizar");
+
+    try {
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+      });
+      if (!res.ok) return alert("Usuario no encontrado");
+      alert("Usuario actualizado");
+    } catch (err) {
+      console.error(err);
+      alert("Error actualizando usuario.");
+    }
+  }
+
+  // Eliminar usuario por ID
+  async function deleteUserById() {
+    const id = document.getElementById("deleteId").value;
+    if (!id) return alert("Ingresa un ID para eliminar");
+    if (!confirm("¿Seguro que quieres eliminar este usuario?")) return;
+
+    try {
+      const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      if (!res.ok) return alert("Usuario no encontrado");
+      alert("Usuario eliminado");
+    } catch (err) {
+      console.error(err);
+      alert("Error eliminando usuario.");
+    }
+  }
+
+  // Eliminar todos
+  async function deleteAllUsers() {
+    if (!confirm("¿Eliminar todos los usuarios?")) return;
     try {
       await fetch(API_URL, { method: "DELETE" });
-      loadUsers();
+      alert("Todos los usuarios eliminados");
     } catch (err) {
       console.error(err);
       alert("Error eliminando usuarios.");
     }
   }
-  </script>
+</script>
+
     
 </body>
 </html>
