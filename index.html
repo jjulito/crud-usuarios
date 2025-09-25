@@ -36,9 +36,68 @@
         <h2>Link al código ⬇️</h2>
         <a href="https://github.com/jjulito/crud-usuarios" target="_blank" class="btn">Ver en GitHub</a>
     </section>
+    
+    <!-- Sección de prueba del CRUD -->
+  <section class="crud-test">
+    <h2>Probar CRUD de Usuarios</h2>
+    <div class="crud-form">
+      <input type="text" id="name" placeholder="Nombre">
+      <input type="email" id="email" placeholder="Email">
+      <button onclick="createUser()">Crear Usuario</button>
+    </div>
+    <div class="crud-results">
+      <h3>Lista de Usuarios</h3>
+      <ul id="user-list"></ul>
+      <button onclick="loadUsers()">Actualizar Lista</button>
+    </div>
+  </section>
 
     <footer>
         <p>💻 Creado por Julito</p>
     </footer>
+    
+    <script>
+    const API_URL = "https://tu-backend-url.com/api/users"; // 🔹 Cambia por tu URL real después de deploy
+
+    async function loadUsers() {
+      try {
+        const res = await fetch(API_URL);
+        const users = await res.json();
+        const list = document.getElementById("user-list");
+        list.innerHTML = "";
+        users.forEach(u => {
+          const li = document.createElement("li");
+          li.textContent = `ID: ${u.id} - ${u.name} (${u.email})`;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error(err);
+        alert("Error cargando usuarios. Asegúrate de que tu backend esté desplegado.");
+      }
+    }
+
+    async function createUser() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      if (!name || !email) {
+        alert("Completa todos los campos");
+        return;
+      }
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email })
+        });
+        loadUsers();
+      } catch (err) {
+        console.error(err);
+        alert("Error creando usuario.");
+      }
+    }
+
+    loadUsers();
+  </script>
+    
 </body>
 </html>
