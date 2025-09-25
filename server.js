@@ -6,10 +6,7 @@ app.use(cors());
 app.use(express.json());
 
 // Base de datos en memoria
-let usuarios = [
-    { id: 1, name: "Julito", email: "julito@ejemplo.com" },
-    { id: 2, name: "Ana", email: "ana@ejemplo.com" }
-];
+let usuarios = [];
 
 // Endpoint raíz para probar
 app.get("/", (req, res) => {
@@ -34,6 +31,16 @@ app.post("/api/users", (req, res) => {
     };
     usuarios.push(newUser);
     res.status(201).json(newUser);
+});
+
+// Obtener un usuario por ID
+app.get("/api/users/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const user = usuarios.find(u => u.id === id);
+    if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+    res.json(user);
 });
 
 // Actualizar usuario
