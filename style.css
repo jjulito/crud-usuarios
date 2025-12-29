@@ -1,164 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+  --primary-color: #0d6efd;
+  /* Bootstrap Primary Default, can be tweaked */
+  --bs-body-font-family: 'Outfit', sans-serif;
+  --bg-color: #e9ecef;
+  /* More visible grayish background */
+  --card-bg: #ffffff;
+  --text-main: #212529;
+  --text-muted: #6c757d;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    color: #333;
+  background-color: var(--bg-color);
+  font-family: var(--bs-body-font-family);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }
 
-header {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    padding: 2rem;
-    text-align: center;
-    animation: fadeIn 1s ease-in-out;
+/* Navbar Tweaks */
+.navbar {
+  background: #0ea5e9 !important;
+  /* Solid Sky Blue (Tailwind Sky 500) */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2.5rem;
+.navbar-brand i {
+  color: rgba(255, 255, 255, 0.9);
 }
 
-header p {
-    font-size: 1.2rem;
+/* Card Styling */
+.custom-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--card-bg);
+  border-radius: 12px;
 }
 
-section {
-    padding: 2rem;
-    max-width: 900px;
-    margin: auto;
-    background: white;
-    margin-top: 1rem;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
-    animation: fadeIn 1s ease-in-out;
+/* Removed card hover per user request */
+
+.card-header {
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-section h2 {
-    color: #2575fc;
-    margin-bottom: 1rem;
+/* Badges */
+.badge {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 0.5em 0.8em;
 }
 
-ul {
-    list-style: inside disc;
+.code-list code {
+  color: #d63384;
+  background-color: rgba(214, 51, 132, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
 }
 
-code {
-    background: #f4f4f4;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.project-preview .preview-card {
-    background: #f9f9f9;
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
-
-.project-links {
-    text-align: center;
-}
-
+/* Buttons */
 .btn {
-    display: inline-block;
-    margin: 10px;
-    padding: 0.8rem 1.4rem;
-    background: #2575fc;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background 0.3s ease;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
 }
 
-.btn:hover {
-    background: #0053ba;
+.btn-primary {
+  box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
 }
 
-footer {
-    text-align: center;
-    padding: 1rem;
-    background: #f0f0f0;
-    font-size: 0.9rem;
-    margin-top: 2rem;
+.btn-primary:active {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.small {
-    font-size: 0.9rem;
-    color: #555;
+.btn-danger {
+  box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+}
+
+/* Form Styles */
+.crud-form {
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 1.5rem;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: 0.6rem 1rem;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+  border-color: #86b7fe;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Estilos CRUD */
-.crud-test {
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  margin: 2rem auto;
-  max-width: 800px;
-  box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-}
-
-.crud-test h2 {
-  color: #2575fc;
-}
-
-/* Botonera alineada */
-.crud-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.crud-buttons button {
-  padding: 0.6rem 1.2rem;
-  border: none;
-  background: #2575fc;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.crud-buttons button:hover {
-  background: #0053ba;
-}
-
-/* Formularios ocultos */
-.crud-form {
-  margin-bottom: 15px;
-}
-
-.crud-form input {
-  padding: 0.5rem;
-  margin: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.crud-form button {
-  padding: 0.5rem 1rem;
-  background: #2575fc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.crud-form button:hover {
-  background: #0053ba;
-}
-
-/* Estado oculto */
 .hidden {
-  display: none;
+  display: none !important;
 }
 
-.crud-results ul {
-  padding-left: 1rem;
+/* List Items */
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #f1f1f1;
+  padding: 1rem 1.25rem;
+  transition: background-color 0.15s ease;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Footer Link Hover */
+.hover-link:hover {
+  color: var(--primary-color) !important;
+  text-decoration: underline !important;
+}
+
+.hover-link:hover .lucide {
+  stroke: var(--primary-color);
 }

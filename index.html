@@ -1,204 +1,185 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1946/1946488.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
-    <header>
-        <h1>CRUD de Usuarios</h1>
-        <p>Proyecto Backend en Node.js + Express</p>
-    </header>
 
-    <section class="project-intro">
-        <h2>Descripción</h2>
-        <p>Este proyecto es una API REST que permite crear, leer, actualizar y eliminar usuarios.</p>
-    </section>
 
-    <section class="project-preview">
-        <h2>Vista previa de la API</h2>
-        <div class="preview-card">
-            <h3>Endpoints principales</h3>
-            <ul>
-                <li><code>GET /api/users</code> → Listar usuarios</li>
-                <li><code>POST /api/users</code> → Crear usuario</li>
-                <li><code>PUT /api/users/:id</code> → Actualizar usuario</li>
-                <li><code>DELETE /api/users/:id</code> → Eliminar usuario</li>
-            </ul>
-            <p class="small">Se usa Node.js + Express y estructura MVC.</p>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <i data-lucide="database"></i>
+                <span class="fw-bold" data-i18n="app_title">CRUD Usuarios</span>
+            </a>
+            <button class="btn btn-sm btn-outline-light d-flex align-items-center gap-2" onclick="toggleLanguage()">
+                <i data-lucide="languages" size="16"></i>
+                <span id="lang-label">EN</span>
+            </button>
         </div>
-    </section>
-    
-    <!-- Sección de prueba del CRUD -->
-  <section class="crud-test">
-  <h2>Probar CRUD de Usuarios</h2>
+    </nav>
 
-  <!-- Botonera -->
-  <div class="crud-buttons">
-    <button onclick="toggleForm('createForm')">Crear Usuario</button>
-    <button onclick="toggleForm('readForm')">Leer Usuario</button>
-    <button onclick="toggleForm('updateForm')">Actualizar Usuario</button>
-    <button onclick="toggleForm('deleteForm')">Eliminar Usuario</button>
-    <button onclick="loadUsers()">Mostrar Lista</button>
-    <button onclick="deleteAllUsers()">Eliminar Todos</button>
-  </div>
+    <div class="container">
 
-  <!-- Formularios ocultos -->
-  <div id="createForm" class="crud-form hidden">
-    <input type="text" id="name" placeholder="Nombre">
-    <input type="email" id="email" placeholder="Email">
-    <button onclick="createUser()">Confirmar</button>
-  </div>
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title d-flex align-items-center gap-2 text-primary">
+                            <i data-lucide="info"></i> <span data-i18n="desc_title">Descripción</span>
+                        </h5>
+                        <p class="card-text text-muted" data-i18n="desc_text">
+                            Este proyecto es una API REST moderna que permite administrar usuarios de forma eficiente.
+                            Diseñada con una arquitectura MVC limpia sobre Node.js.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title d-flex align-items-center gap-2 text-primary">
+                            <i data-lucide="server"></i> Endpoints
+                        </h5>
+                        <ul class="list-unstyled mb-0 small code-list">
+                            <li class="mb-2"><span class="badge bg-success-subtle text-success-emphasis">GET</span>
+                                <code>/api/users</code> <span data-i18n="ep_list">→ Listar usuarios</span>
+                            </li>
+                            <li class="mb-2"><span class="badge bg-primary-subtle text-primary-emphasis">POST</span>
+                                <code>/api/users</code> <span data-i18n="ep_create">→ Crear usuario</span>
+                            </li>
+                            <li class="mb-2"><span class="badge bg-warning-subtle text-warning-emphasis">PUT</span>
+                                <code>/api/users/:id</code> <span data-i18n="ep_update">→ Actualizar usuario</span>
+                            </li>
+                            <li><span class="badge bg-danger-subtle text-danger-emphasis">DELETE</span>
+                                <code>/api/users/:id</code> <span data-i18n="ep_delete">→ Eliminar usuario</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <div id="readForm" class="crud-form hidden">
-    <input type="number" id="readId" placeholder="ID a leer">
-    <button onclick="getUserById()">Confirmar</button>
-  </div>
 
-  <div id="updateForm" class="crud-form hidden">
-    <input type="number" id="updateId" placeholder="ID a actualizar">
-    <input type="text" id="updateName" placeholder="Nuevo Nombre">
-    <input type="email" id="updateEmail" placeholder="Nuevo Email">
-    <button onclick="updateUser()">Confirmar</button>
-  </div>
+        <div class="card border-0 shadow-lg overflow-hidden">
+            <div class="card-header bg-white border-0 py-3">
+                <h4 class="mb-0 text-dark d-flex align-items-center gap-2" data-i18n="cp_title">
+                    Panel de Control
+                </h4>
+            </div>
+            <div class="card-body p-4">
 
-  <div id="deleteForm" class="crud-form hidden">
-    <input type="number" id="deleteId" placeholder="ID a eliminar">
-    <button onclick="deleteUserById()">Confirmar</button>
-  </div>
 
-  <!-- Lista -->
-  <div class="crud-results">
-    <h3>Lista de Usuarios</h3>
-    <ul id="user-list"></ul>
-  </div>
-</section>
+                <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center justify-content-md-start">
+                    <button class="btn btn-outline-primary d-flex align-items-center gap-2"
+                        onclick="toggleForm('createForm')">
+                        <i data-lucide="plus-circle" size="18"></i> <span data-i18n="btn_create">Crear</span>
+                    </button>
+                    <button class="btn btn-outline-secondary d-flex align-items-center gap-2"
+                        onclick="toggleForm('readForm')">
+                        <i data-lucide="search" size="18"></i> <span data-i18n="btn_search">Buscar</span>
+                    </button>
+                    <button class="btn btn-outline-info d-flex align-items-center gap-2"
+                        onclick="toggleForm('updateForm')">
+                        <i data-lucide="edit-3" size="18"></i> <span data-i18n="btn_edit">Editar</span>
+                    </button>
+                    <button class="btn btn-outline-danger d-flex align-items-center gap-2"
+                        onclick="toggleForm('deleteForm')">
+                        <i data-lucide="trash-2" size="18"></i> <span data-i18n="btn_delete">Eliminar</span>
+                    </button>
+                    <div class="vr mx-2 d-none d-md-block"></div>
+                    <button class="btn btn-primary d-flex align-items-center gap-2" onclick="loadUsers()">
+                        <i data-lucide="list" size="18"></i> <span data-i18n="btn_list_all">Listar Todos</span>
+                    </button>
+                    <button class="btn btn-danger d-flex align-items-center gap-2" onclick="deleteAllUsers()">
+                        <i data-lucide="x-octagon" size="18"></i> <span data-i18n="btn_delete_all">Borrar Todo</span>
+                    </button>
+                </div>
 
-    <footer>
-        <p>💻 Creado por Julito </p>
-        <a href="https://github.com/jjulito" target="_blank" class="btn github">
-        <i class="fab fa-github"></i>
+
+                <div class="row justify-content-center mb-4">
+                    <div class="col-md-8">
+
+
+                        <div id="createForm" class="crud-form hidden p-4 bg-light rounded-3 fade-in">
+                            <h6 class="mb-3 text-primary" data-i18n="form_new_user">Nuevo Usuario</h6>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" id="name" placeholder="Nombre completo"
+                                    data-i18n-placeholder="ph_name">
+                                <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com"
+                                    data-i18n-placeholder="ph_email">
+                                <button class="btn btn-primary" onclick="createUser()"
+                                    data-i18n="btn_save">Guardar</button>
+                            </div>
+                        </div>
+
+                        <div id="readForm" class="crud-form hidden p-4 bg-light rounded-3 fade-in">
+                            <h6 class="mb-3 text-secondary" data-i18n="form_search_user">Buscar Usuario</h6>
+                            <div class="d-flex gap-2">
+                                <input type="number" class="form-control" id="readId" placeholder="ID del usuario"
+                                    data-i18n-placeholder="ph_id">
+                                <button class="btn btn-secondary" onclick="getUserById()"
+                                    data-i18n="btn_search_action">Buscar</button>
+                            </div>
+                        </div>
+
+                        <div id="updateForm" class="crud-form hidden p-4 bg-light rounded-3 fade-in">
+                            <h6 class="mb-3 text-info" data-i18n="form_update_user">Actualizar Datos</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <input type="number" class="form-control" id="updateId" placeholder="ID a modificar"
+                                    data-i18n-placeholder="ph_update_id">
+                                <input type="text" class="form-control" id="updateName" placeholder="Nuevo Nombre"
+                                    data-i18n-placeholder="ph_new_name">
+                                <input type="email" class="form-control" id="updateEmail" placeholder="Nuevo Email"
+                                    data-i18n-placeholder="ph_new_email">
+                                <button class="btn btn-info text-white" onclick="updateUser()"
+                                    data-i18n="btn_update">Actualizar</button>
+                            </div>
+                        </div>
+
+                        <div id="deleteForm" class="crud-form hidden p-4 bg-light rounded-3 fade-in">
+                            <h6 class="mb-3 text-danger" data-i18n="form_delete_user">Eliminar Usuario</h6>
+                            <div class="d-flex gap-2">
+                                <input type="number" class="form-control" id="deleteId" placeholder="ID a eliminar"
+                                    data-i18n-placeholder="ph_delete_id">
+                                <button class="btn btn-danger" onclick="deleteUserById()"
+                                    data-i18n="btn_delete_action">Eliminar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="crud-results">
+                    <h5 class="mb-3 border-bottom pb-2" data-i18n="results_title">Resultados</h5>
+                    <ul id="user-list" class="list-group list-group-flush">
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-4 mt-5 text-muted small">
+        <p class="mb-1"><span data-i18n="footer_credit">💻 Creado por</span> <span
+                class="fw-bold text-primary">Julito</span></p>
+        <a href="https://github.com/jjulito" target="_blank"
+            class="text-decoration-none text-muted d-inline-flex align-items-center gap-1 hover-link">
+            <i data-lucide="github" size="14"></i> jjulito
         </a>
     </footer>
-    
-    <script>
 
-function toggleForm(formId) {
-  document.querySelectorAll(".crud-form").forEach(form => {
-    form.classList.add("hidden");
-  });
-  document.getElementById(formId).classList.remove("hidden");
-}
-        
-  const API_URL = "https://crud-usuarios-1zkp.onrender.com/api/users";
-
-  // Mostrar todos los usuarios
-  async function loadUsers() {
-    try {
-      const res = await fetch(API_URL);
-      const users = await res.json();
-      const list = document.getElementById("user-list");
-      list.innerHTML = "";
-      users.forEach(u => {
-        const li = document.createElement("li");
-        li.textContent = `ID: ${u.id} - ${u.name} (${u.email})`;
-        list.appendChild(li);
-      });
-    } catch (err) {
-      console.error(err);
-      alert("Error cargando usuarios");
-    }
-  }
-
-  // Crear usuario
-  async function createUser() {
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    if (!name || !email) return alert("Completa todos los campos");
-
-    try {
-      await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email })
-      });
-      alert("Usuario creado");
-    } catch (err) {
-      console.error(err);
-      alert("Error creando usuario.");
-    }
-  }
-
-  // Leer usuario por ID
-  async function getUserById() {
-    const id = document.getElementById("readId").value;
-    if (!id) return alert("Ingresa un ID");
-
-    try {
-      const res = await fetch(`${API_URL}/${id}`);
-      if (!res.ok) return alert("Usuario no encontrado");
-      const user = await res.json();
-      alert(`Usuario encontrado:\nID: ${user.id}\nNombre: ${user.name}\nEmail: ${user.email}`);
-    } catch (err) {
-      console.error(err);
-      alert("Error leyendo usuario.");
-    }
-  }
-
-  // Actualizar usuario por ID
-  async function updateUser() {
-    const id = document.getElementById("updateId").value;
-    const name = document.getElementById("updateName").value;
-    const email = document.getElementById("updateEmail").value;
-    if (!id) return alert("Ingresa un ID para actualizar");
-
-    try {
-      const res = await fetch(`${API_URL}/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email })
-      });
-      if (!res.ok) return alert("Usuario no encontrado");
-      alert("Usuario actualizado");
-    } catch (err) {
-      console.error(err);
-      alert("Error actualizando usuario.");
-    }
-  }
-
-  // Eliminar usuario por ID
-  async function deleteUserById() {
-    const id = document.getElementById("deleteId").value;
-    if (!id) return alert("Ingresa un ID para eliminar");
-    if (!confirm("¿Seguro que quieres eliminar este usuario?")) return;
-
-    try {
-      const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-      if (!res.ok) return alert("Usuario no encontrado");
-      alert("Usuario eliminado");
-    } catch (err) {
-      console.error(err);
-      alert("Error eliminando usuario.");
-    }
-  }
-
-  // Eliminar todos
-  async function deleteAllUsers() {
-    if (!confirm("¿Eliminar todos los usuarios?")) return;
-    try {
-      await fetch(API_URL, { method: "DELETE" });
-      alert("Todos los usuarios eliminados");
-    } catch (err) {
-      console.error(err);
-      alert("Error eliminando usuarios.");
-    }
-  }
-</script>
-
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>
